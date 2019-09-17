@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component.jsx";
@@ -18,20 +18,16 @@ class App extends React.Component {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
         userRef.onSnapshot(snapShot => {
-          this.setState(
-            {
-              currentUser: {
-                id: snapShot.id,
-                ...snapShot.data()
-              }
-            },
-            () => {
-              console.log(this.state);
+          console.log("This is the snapshot", snapShot.data());
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
             }
-          );
+          });
         });
       } else {
-        this.setState({ currentUser: userAuth });
+        this.setState({ currentUser: null });
       }
     });
   }
@@ -41,6 +37,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div className="sun" />
         <Header currentUser={this.state.currentUser} />
         <Switch>
           <Route exact={true} path="/" component={HomePage} />
